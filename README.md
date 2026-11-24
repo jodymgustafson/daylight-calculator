@@ -1,6 +1,7 @@
-# daylight_calc
+# Daylight Calculator
 
-A new Flutter project.
+A Flutter mobile app that shows the number of hours of daylight given a day of
+year and latitude.
 
 ## Getting Started
 

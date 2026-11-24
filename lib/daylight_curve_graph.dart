@@ -1,5 +1,5 @@
 import 'package:daylight_calc/daylight_utils.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DaylightCurveGraph extends StatelessWidget {
   const DaylightCurveGraph({
