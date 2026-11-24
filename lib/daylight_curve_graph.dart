@@ -108,18 +108,62 @@ class _DaylightCurvePainter extends CustomPainter {
   }
 
   void _drawXAxis(Rect plot, Canvas canvas, Paint axisPaint) {
-    final dayTicks = <int>{1, 100, 200, 300, daysInYear}.toList()..sort();
-    for (final day in dayTicks) {
-      final x = plot.left + ((day - 1) / (daysInYear - 1)) * plot.width;
+    const monthNames = <String>[
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const monthStarts = <int>[
+      1,
+      32,
+      60,
+      91,
+      121,
+      152,
+      182,
+      213,
+      244,
+      274,
+      305,
+      335,
+    ];
+
+    // Adjust for leap years
+    if (daysInYear > 365) {
+      for (var i = 2; i < monthStarts.length; i++) {
+        monthStarts[i]++;
+      }
+    }
+
+    for (var index = 0; index < monthStarts.length; index++) {
+      final tickDay = monthStarts[index];
+      final x = plot.left + ((tickDay - 1) / (daysInYear - 1)) * plot.width;
       canvas.drawLine(
         Offset(x, plot.bottom),
         Offset(x, plot.bottom - 8),
         axisPaint,
       );
+
+      final intervalRightDay = index < monthStarts.length - 1
+          ? monthStarts[index + 1]
+          : daysInYear + 1;
+      final intervalRightX = index < monthStarts.length - 1
+          ? plot.left + ((intervalRightDay - 1) / (daysInYear - 1)) * plot.width
+          : plot.right;
+      final labelX = (x + intervalRightX) / 2;
       _drawLabel(
         canvas,
-        '$day',
-        Offset(x, plot.bottom - 16),
+        monthNames[index],
+        Offset(labelX, plot.bottom - 16),
         alignment: Alignment.topCenter,
       );
     }
